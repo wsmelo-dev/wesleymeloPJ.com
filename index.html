@@ -617,7 +617,7 @@
       const [theme, toggleTheme] = useTheme();
       const [menuOpen, setMenuOpen] = useState(false);
       const menuBtnRef = useRef(null);
-      const [gate, setGate] = useState(() => { try { return localStorage.getItem("wsm.gate.seen") ? "done" : "idle"; } catch (e) { return "idle"; } });
+      const [gate, setGate] = useState("idle");
       const gateTimers = useRef([]);
       useEffect(() => {
         if (gate === "done") return;
@@ -626,14 +626,13 @@
         gateTimers.current.forEach(clearTimeout); gateTimers.current = [];
         if (gate === "press") gateTimers.current.push(setTimeout(() => setGate("expand"), reduce ? 60 : 320));
         if (gate === "expand") gateTimers.current.push(setTimeout(() => {
-          try { localStorage.setItem("wsm.gate.seen", "1"); } catch (e) {}
           document.body.style.overflow = "";
           setGate("done");
         }, reduce ? 220 : 780));
         return () => { gateTimers.current.forEach(clearTimeout); };
       }, [gate]);
       const enter = () => { if (gate === "idle") setGate("press"); };
-      const replay = () => { try { localStorage.removeItem("wsm.gate.seen"); } catch (e) {} window.location.reload(); };
+      const replay = () => window.location.reload();
       const [copied, setCopied] = useState(false);
       const copyEmail = async () => {
         const email = "wesleysantosmelo2022@gmail.com";
