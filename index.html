@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -254,15 +254,13 @@
     .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;margin-top:32px}
     @media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:28px}}
     .portrait{
-      background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
-      padding:32px;box-shadow:var(--shadow-sm);position:sticky;top:calc(var(--nav-h) + 20px);align-self:start;
-      overflow:hidden;
+      background:none;border:0;box-shadow:none;
+      padding:8px 0;position:sticky;top:calc(var(--nav-h) + 20px);align-self:start;
     }
-    .portrait::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg, var(--accent), transparent)}
     @media(max-width:860px){.portrait{position:static}}
-    .photo-frame{position:relative;margin:0 0 4px;width:100%;aspect-ratio:4/3;border-radius:var(--r-inner);overflow:hidden;background:var(--surface-2);border:1px solid var(--line-soft)}
+    .photo-frame{position:relative;margin:4px auto 0;width:288px;height:288px;max-width:100%;border-radius:16px;overflow:hidden;background:none;border:0;flex:none}
     .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;position:relative}
-    .photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;color:var(--text-3);background:linear-gradient(135deg,var(--accent-soft),transparent)}
+    .photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;color:var(--text-3)}
     .portrait h3{margin:16px 0 4px;font-size:19px}
     .portrait p.role{color:var(--text-3);font-size:14px;margin-bottom:16px}
     .facts{list-style:none;margin:20px 0 0;padding:20px 0 0;border-top:1px solid var(--line-soft);display:grid;gap:12px;font-size:14px;color:var(--text-2)}
@@ -428,6 +426,62 @@
     .brand-mark{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;letter-spacing:-.02em;margin-right:2px;flex:none}
     .replay{background:none;border:0;color:var(--text-3);font-size:13px;cursor:pointer;padding:8px 4px}
     .replay:hover{color:var(--accent);text-decoration:underline}
+
+    /* ============ CURSOR + PROGRESSO + STAGES + POLIMENTO ============ */
+    .cursor{position:fixed;left:0;top:0;z-index:400;pointer-events:none;opacity:0;transition:opacity .3s}
+    .cursor span{display:block;width:10px;height:10px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),opacity .25s}
+    .cursor.is-link span{width:22px;height:22px;opacity:.7}
+    .cursor.is-btn span{width:38px;height:38px;opacity:.32}
+    .cursor.is-down span{width:7px;height:7px}
+    .has-cursor,.has-cursor *{cursor:none!important}
+    .progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:150;background:var(--accent);transform:scaleX(0);transform-origin:0 50%}
+    @supports (animation-timeline: scroll()){
+      .progress{animation:prog linear both;animation-timeline:scroll()}
+      @keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    }
+    .hero [data-hero]{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+    .hero.hero-go [data-hero]{opacity:1;transform:none}
+    .hero [data-d="1"]{transition-delay:.05s}
+    .hero [data-d="2"]{transition-delay:.2s}
+    .hero [data-d="3"]{transition-delay:.35s}
+    .hero [data-d="4"]{transition-delay:.5s}
+    .hero [data-d="5"]{transition-delay:.62s}
+    .hero [data-d="6"]{transition-delay:.8s}
+    .nav.scrolled{box-shadow:0 6px 24px rgba(0,0,0,.06)}
+    .preview .frame{transition:transform .45s var(--ease)}
+    .card:hover .frame{transform:scale(1.025)}
+    .c-card .ic{transition:transform .3s var(--ease)}
+    .c-card:hover .ic{transform:scale(1.12) rotate(-6deg)}
+    .window,.hero-cards{will-change:transform}
+    @media (prefers-reduced-motion:reduce){
+      .hero [data-hero]{opacity:1;transform:none;transition:none}
+      .cursor{display:none}
+      .progress{display:none}
+    }
+
+    /* ============ TECH REFRESH (atmosfera tecnológica contida) ============ */
+    .hero{position:relative}
+    .hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+      background-image:radial-gradient(rgba(128,128,128,.28) 1px, transparent 1.4px);background-size:26px 26px;
+      -webkit-mask-image:radial-gradient(72% 62% at 50% 32%, #000 25%, transparent 78%);
+      mask-image:radial-gradient(72% 62% at 50% 32%, #000 25%, transparent 78%)}
+    .hero .wrap{position:relative}
+    .hero [data-d="7"]{transition-delay:.95s}
+    .termline{font-family:var(--mono);font-size:13.5px;color:var(--text-2);margin-top:18px}
+    .termline b{color:var(--accent);font-weight:600}
+    .termline .caret{display:inline-block;width:8px;height:14px;background:var(--accent);vertical-align:-2px;margin-left:5px}
+    .btn-primary{background:linear-gradient(180deg,var(--accent-hover),var(--accent));box-shadow:0 8px 26px rgba(0,113,227,.32)}
+    .btn-primary:hover{box-shadow:0 12px 34px rgba(0,113,227,.4)}
+    .mini:hover,.value:hover,.learn article:hover,.c-card:hover{border-color:rgba(0,113,227,.4)}
+    [data-theme="dark"] .mini:hover,[data-theme="dark"] .value:hover,[data-theme="dark"] .learn article:hover,[data-theme="dark"] .c-card:hover{border-color:rgba(41,151,255,.45)}
+    .skills,.contact{position:relative;overflow:clip}
+    .skills::before,.contact::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(620px 230px at 50% 0, var(--accent-soft), transparent 70%)}
+    .skills>.wrap,.contact>.wrap{position:relative}
+    .sys{color:#30D158;font-weight:600}
+    @media (prefers-reduced-motion:no-preference){
+      .termline .caret{animation:blink 1.2s steps(1) infinite}
+      @keyframes blink{50%{opacity:0}}
+    }
     @media(max-width:480px){.wm-btn{width:188px;height:188px}.wm-letters{font-size:40px}.gate::after{width:188px;height:188px;margin:-94px 0 0 -94px}}
     @media (prefers-reduced-motion:no-preference){
       .wm-btn{animation:breathe 5s ease-in-out infinite}
@@ -509,9 +563,7 @@
       return s;
     }
     function useTheme() {
-      const [theme, setTheme] = useState(() =>
-        window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-      );
+      const [theme, setTheme] = useState("dark");
       useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
       return [theme, () => setTheme(t => (t === "light" ? "dark" : "light"))];
     }
@@ -536,13 +588,14 @@
       return <Tag ref={ref} className={"rv " + className} style={{ transitionDelay: delay + "ms" }}>{children}</Tag>;
     }
     /* SplitText adaptado do React Bits: revela por caractere no hero */
-    function SplitTitle({ text }) {
+    function SplitTitle({ text, start = true }) {
       const ref = useRef(null);
       const [inView, setInView] = useState(false);
       useEffect(() => {
+        if (!start) return;
         const t = setTimeout(() => setInView(true), 60);
         return () => clearTimeout(t);
-      }, []);
+      }, [start]);
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       return (
         <span ref={ref} className={inView ? "in" : ""} style={{ display: "inline" }} aria-hidden="true">
@@ -611,12 +664,55 @@
       );
     }
 
+    /* Cursor personalizado (apenas pointer fino, sem reduced-motion) */
+    function Cursor() {
+      const ref = useRef(null);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        let x = window.innerWidth / 2, y = window.innerHeight / 2, tx = x, ty = y, raf = 0, shown = false;
+        const tick = () => {
+          x += (tx - x) * 0.2; y += (ty - y) * 0.2;
+          el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)`;
+          if (Math.abs(tx - x) > 0.15 || Math.abs(ty - y) > 0.15) raf = requestAnimationFrame(tick);
+          else raf = 0;
+        };
+        const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+        const mv = e => {
+          tx = e.clientX; ty = e.clientY;
+          const t = e.target && e.target.closest ? e.target.closest("button,a") : null;
+          el.classList.toggle("is-link", !!(t && t.tagName === "A"));
+          el.classList.toggle("is-btn", !!(t && t.tagName === "BUTTON"));
+          if (!shown) { shown = true; el.style.opacity = "1"; }
+          kick();
+        };
+        const dn = () => el.classList.add("is-down");
+        const up = () => el.classList.remove("is-down");
+        const lv = () => { shown = false; el.style.opacity = "0"; };
+        window.addEventListener("mousemove", mv, { passive: true });
+        window.addEventListener("mousedown", dn);
+        window.addEventListener("mouseup", up);
+        document.documentElement.addEventListener("mouseleave", lv);
+        return () => {
+          window.removeEventListener("mousemove", mv);
+          window.removeEventListener("mousedown", dn);
+          window.removeEventListener("mouseup", up);
+          document.documentElement.removeEventListener("mouseleave", lv);
+          if (raf) cancelAnimationFrame(raf);
+        };
+      }, []);
+      return <div className="cursor" ref={ref} aria-hidden="true"><span/></div>;
+    }
+
     /* ---------- APP ---------- */
     function App() {
       const scrolled = useScrolled();
       const [theme, toggleTheme] = useTheme();
       const [menuOpen, setMenuOpen] = useState(false);
       const menuBtnRef = useRef(null);
+      const hvRef = useRef(null);
+      const [finePointer] = useState(() => window.matchMedia("(pointer: fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      useEffect(() => { if (finePointer) document.documentElement.classList.add("has-cursor"); }, [finePointer]);
       const [gate, setGate] = useState("idle");
       const gateTimers = useRef([]);
       useEffect(() => {
@@ -666,8 +762,37 @@
         return () => document.removeEventListener("keydown", onKey);
       }, [menuOpen]);
 
+      /* Parallax sutil do visual da hero (pointer fino, sem reduce) */
+      useEffect(() => {
+        const wrap = hvRef.current;
+        if (!wrap) return;
+        if (!window.matchMedia("(pointer: fine)").matches) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const layers = [wrap.querySelector(".window"), wrap.querySelector(".hero-cards")].filter(Boolean);
+        const depth = [10, -7];
+        let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0, visible = true;
+        const tick = () => {
+          cx += (tx - cx) * 0.07; cy += (ty - cy) * 0.07;
+          layers.forEach((l, i) => { l.style.transform = `translate3d(${(cx * depth[i] / 10).toFixed(2)}px,${(cy * depth[i] / 10).toFixed(2)}px,0)`; });
+          if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) raf = requestAnimationFrame(tick);
+          else raf = 0;
+        };
+        const io = new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !raf && (tx || ty)) raf = requestAnimationFrame(tick); });
+        io.observe(wrap);
+        const mv = e => {
+          const r = wrap.getBoundingClientRect();
+          tx = (e.clientX - r.left) / r.width - 0.5;
+          ty = (e.clientY - r.top) / r.height - 0.5;
+          if (visible && !raf) raf = requestAnimationFrame(tick);
+        };
+        window.addEventListener("mousemove", mv, { passive: true });
+        return () => { window.removeEventListener("mousemove", mv); io.disconnect(); if (raf) cancelAnimationFrame(raf); };
+      }, []);
+
       return (
         <React.Fragment>
+          {finePointer && <Cursor/>}
+          <div className="progress" aria-hidden="true"/>
           {gate !== "done" && (
             <div className={"gate" + (gate === "press" ? " press" : gate === "expand" ? " expand" : "")} role="dialog" aria-modal="true" aria-label="Entrada do portfólio de Wesley Santos de Melo">
               <p className="gate-eyebrow">Wesley Santos de Melo</p>
@@ -728,32 +853,33 @@
 
           <main id="conteudo">
             {/* ===== HERO ===== */}
-            <section className="hero" id="inicio" aria-labelledby="hero-title">
+            <section className={"hero" + (gate === "done" ? " hero-go" : "")} id="inicio" aria-labelledby="hero-title">
               <div className="wrap hero-grid">
                 <div>
-                  <span className="status"><span className="dot" aria-hidden="true"></span> Disponível para estágio e júnior</span>
+                  <span className="status" data-hero data-d="1"><span className="dot" aria-hidden="true"></span> Disponível para estágio e júnior</span>
                   <h1 id="hero-title" aria-label="Wesley Santos de Melo">
-                    <SplitTitle text="Wesley Santos" /><br />
-                    <SplitTitle text="de Melo" />
+                    <SplitTitle text="Wesley Santos" start={gate === "done"} /><br />
+                    <SplitTitle text="de Melo" start={gate === "done"} />
                   </h1>
-                  <p className="hero-sub">
+                  <p className="hero-sub" data-hero data-d="3">
                     <strong>Frontend Developer</strong> em formação. Construo interfaces
                     modernas, acessíveis e cuidadas, e estou em busca da primeira
                     oportunidade para aprender entregando valor real.
                   </p>
-                  <div className="btn-row">
+                  <p className="termline" data-hero data-d="4"><b>$</b> open-to-work --estagio --junior<span className="caret" aria-hidden="true"/></p>
+                  <div className="btn-row" data-hero data-d="5">
                     <Magnetic><a className="btn btn-primary" href="#projetos">Ver projetos ↓</a></Magnetic>
                     <Magnetic><a className="btn btn-ghost" href="#contato">Entrar em contato →</a></Magnetic>
                   </div>
-                  <div className="hero-meta" aria-label="Resumo rápido">
+                  <div className="hero-meta" data-hero data-d="6" aria-label="Resumo rápido">
                     <div><strong>Foco</strong><span>React · interfaces</span></div>
                     <div><strong>Base</strong><span>HTML · CSS · JS</span></div>
                     <div><strong>Objetivo</strong><span>Estágio / Júnior</span></div>
                   </div>
-                  <p className="scroll-hint" aria-hidden="true"><span className="mouse"></span> Role para explorar</p>
+                  <p className="scroll-hint" data-hero data-d="7" aria-hidden="true"><span className="mouse"></span> Role para explorar</p>
                 </div>
 
-                <div className="hero-visual" aria-label="Amostra do meu código e estilo de interface">
+                <div className="hero-visual" ref={hvRef} data-hero data-d="2" aria-label="Amostra do meu código e estilo de interface">
                   <div className="window">
                     <div className="window-bar" aria-hidden="true">
                       <span className="traffic"><i/><i/><i/></span>
@@ -788,7 +914,7 @@
             {/* ===== SOBRE ===== */}
             <section className="about" id="sobre" aria-labelledby="sobre-title">
               <div className="wrap">
-                <Reveal><h2 id="sobre-title">Software, sistemas<br />e programação.</h2></Reveal>
+                <Reveal><span className="kicker">&lt;sobre /&gt;</span><h2 id="sobre-title" style={{marginTop:"12px"}}>Software, sistemas<br />e programação.</h2></Reveal>
                 <div className="about-grid">
                   <Reveal className="portrait" delay={80}>
                     <figure className="photo-frame">
@@ -954,7 +1080,7 @@
 
           <footer>
             <div className="wrap foot">
-              <span>© 2026 Wesley Santos de Melo · Feito com React em um único HTML</span>
+              <span>© 2026 Wesley Santos de Melo · Feito com React em um único HTML · <span className="sys">● online</span></span>
               <button type="button" className="replay" onClick={replay}>Rever abertura ↺</button>
               <a href="#inicio" style={{textDecoration:"none"}}>Voltar ao topo ↑</a>
             </div>
