@@ -693,7 +693,7 @@
             {/* ===== SOBRE ===== */}
             <section className="about" id="sobre" aria-labelledby="sobre-title">
               <div className="wrap">
-                <Reveal><h2 id="sobre-title">Código com calma,<br />detalhe com intenção.</h2></Reveal>
+                <Reveal><h2 id="sobre-title">Software, sistemas<br />e programação.</h2></Reveal>
                 <div className="about-grid">
                   <Reveal className="portrait" delay={80}>
                     <figure className="photo-frame">
@@ -702,25 +702,25 @@
                       <img src="foto.png" alt="Foto de Wesley Santos de Melo" onError={(e) => { const el = e.currentTarget; if (!el.dataset.fb) { el.dataset.fb = "1"; el.src = "foto.jpg"; } else { el.style.display = "none"; } }} />
                     </figure>
                     <h3>Wesley Santos de Melo</h3>
-                    <p className="role">Frontend Developer · Brasil</p>
-                    <p className="lede" style={{fontSize:"14.5px"}}>Estou no início da carreira, mas levo o ofício a sério: cada estudo vira interface testada, revisada e publicada.</p>
+                    <p className="role">Desenvolvedor de software · Brasil</p>
+                    <p className="lede" style={{fontSize:"14.5px"}}>No início da carreira em programação, com foco em construir software e sistemas bem feitos, do front-end aos fundamentos.</p>
                     <ul className="facts">
-                      <li>▸ <span><b>Foco atual:</b> React, JavaScript e fundamentos sólidos de CSS</span></li>
-                      <li>▸ <span><b>Como aprendo:</b> construindo, quebrando e refatorando projetos</span></li>
+                      <li>▸ <span><b>Foco atual:</b> lógica de programação, JavaScript e React</span></li>
+                      <li>▸ <span><b>Como aprendo:</b> programando projetos e estudando fundamentos de sistemas</span></li>
                       <li>▸ <span><b>Próximo passo:</b> estágio ou vaga júnior em tecnologia</span></li>
                     </ul>
                   </Reveal>
                   <div>
                     <Reveal delay={120}>
-                      <p className="lede">Sou movido por tecnologia e pela parte visual da web. Gosto do momento em que um layout sai do Figma e ganha vida no navegador, com tipografia certa, espaçamento consistente e interação que responde bem.</p>
-                      <p className="lede" style={{marginTop:"16px"}}>Estudo desenvolvimento frontend de forma contínua e me interesso por UI, detalhes de acabamento e acessibilidade. Ainda não tenho experiência profissional, e prefiro ser transparente sobre isso, do que pareço pronto: alguém que aprende rápido e se importa com qualidade.</p>
+                      <p className="lede">O que me atrai em tecnologia é entender como o software funciona: a lógica por trás de um programa, como os dados circulam em um sistema e como uma boa programação transforma uma ideia em algo que realmente funciona.</p>
+                      <p className="lede" style={{marginTop:"16px"}}>Comecei pelo desenvolvimento front-end, criando interfaces com HTML, CSS, JavaScript e React, e sigo aprofundando lógica de programação e fundamentos de sistemas. Ainda não tenho experiência profissional, e prefiro ser transparente sobre isso, do que pareço pronto: alguém que estuda com constância e quer crescer dentro da área de software.</p>
                     </Reveal>
                     <div className="values">
                       {[
-                        { e: "◍", t: "Atenção aos detalhes", d: "Alinhamento, contraste e hierarquia revisados antes de publicar." },
-                        { e: "◎", t: "Acessibilidade", d: "Semântica, teclado, foco visível e contraste como padrão." },
-                        { e: "⬔", t: "UI moderna", d: "Referências atuais, sem excesso: menos efeito, mais clareza." },
-                        { e: "✎", t: "Aprendizado contínuo", d: "Rotina de estudos com React, TypeScript e boas práticas." },
+                        { e: "◍", t: "Lógica de programação", d: "Resolução de problemas, algoritmos e estruturas de dados na rotina de estudos." },
+                        { e: "◎", t: "Fundamentos de sistemas", d: "Interesse em como o software funciona por dentro: dados, fluxo e organização." },
+                        { e: "⬔", t: "Código limpo", d: "Nomes claros, funções pequenas e organização desde o primeiro projeto." },
+                        { e: "✎", t: "Aprendizado contínuo", d: "JavaScript, React e bases de programação, com prática constante." },
                       ].map((v, i) => (
                         <Reveal key={v.t} delay={i * 70}>
                           <div className="value"><span aria-hidden="true">{v.e}</span><h3>{v.t}</h3><p>{v.d}</p></div>
