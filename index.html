@@ -359,6 +359,10 @@
     .c-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--accent)}
     .c-card b{font-size:15px;display:block} .c-card small{font-size:13px;color:var(--text-3);display:block}
     .c-card .ic{width:38px;height:38px;border-radius:12px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+    .c-card-split{flex-direction:column;align-items:stretch;gap:10px;cursor:default;justify-content:flex-start}
+    .c-link{display:flex;align-items:center;gap:12px;text-decoration:none;border-radius:10px}
+    .c-link-btn{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%;border-radius:10px}
+    .email-field{flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-pill);padding:10px 14px;font-size:12.5px;color:var(--text-2);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis}
     footer{border-top:1px solid var(--line-soft);padding:28px 0;color:var(--text-3);font-size:13.5px}
     .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
@@ -547,6 +551,27 @@
       const [theme, toggleTheme] = useTheme();
       const [menuOpen, setMenuOpen] = useState(false);
       const menuBtnRef = useRef(null);
+      const [copied, setCopied] = useState(false);
+      const copyEmail = async () => {
+        const email = "wesleysantosmelo2022@gmail.com";
+        const field = document.getElementById("email-field");
+        const selectField = () => {
+          if (field) { field.focus(); field.select(); field.setSelectionRange(0, 9999); }
+        };
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(email);
+          } else {
+            selectField();
+            const ok = document.execCommand("copy");
+            if (!ok) throw new Error("copy failed");
+          }
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+          selectField();
+        }
+      };
 
       useEffect(() => {
         const onKey = (e) => {
@@ -811,10 +836,13 @@
                 <Reveal delay={100}>
                   <div className="contact-grid">
                     {/* ↓↓↓ PREENCHA AQUI: troque os hrefs pelos seus links reais ↓↓↓ */}
-                    <a className="c-card" href="mailto:wesleysantosmelo2022@gmail.com" aria-label="Enviar e-mail para Wesley">
-                      <span className="ic" aria-hidden="true">✉</span>
-                      <span><b>E-mail</b><small>wesleysantosmelo2022@gmail.com</small></span>
-                    </a>
+                    <div className="c-card c-card-split">
+                      <button type="button" className="c-link c-link-btn" onClick={copyEmail} aria-label="Copiar endereço de e-mail">
+                        <span className="ic" aria-hidden="true">✉</span>
+                        <span><b>E-mail</b><small aria-live="polite">{copied ? "✓ E-mail copiado!" : "wesleysantosmelo2022@gmail.com"}</small></span>
+                      </button>
+                      <input id="email-field" className="email-field" type="text" readOnly value="wesleysantosmelo2022@gmail.com" onFocus={(e) => e.target.select()} aria-label="Endereço de e-mail. Pressione Ctrl+C para copiar" />
+                    </div>
                     <span className="c-card" aria-label="GitHub, link em breve">
                       <span className="ic" aria-hidden="true">⌁</span>
                       <span><b>GitHub</b><small>link em breve</small></span>
