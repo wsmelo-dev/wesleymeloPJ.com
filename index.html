@@ -80,6 +80,8 @@
     }
     ::selection{background:var(--accent);color:#fff}
     [data-theme="dark"] ::selection{color:#06121F}
+    body::before{content:"";position:fixed;top:0;left:0;right:0;height:620px;z-index:0;pointer-events:none;background:radial-gradient(640px 340px at 50% -90px, var(--accent-soft), transparent 70%)}
+    main{position:relative;z-index:1}
     a{color:inherit}
     img{max-width:100%;display:block}
     .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
@@ -195,6 +197,7 @@
     }
     .hero h1 .accent{color:var(--accent)}
     .hero-sub{margin-top:18px;color:var(--text-2);font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.65;max-width:46ch}
+    .hero-sub strong{color:var(--accent)}
     .hero-meta{display:flex;gap:20px;margin-top:26px;flex-wrap:wrap}
     .hero-meta div{display:flex;flex-direction:column}
     .hero-meta strong{font-size:15px}
@@ -207,7 +210,8 @@
     @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
     /* Janela de código: preview real de componente, não screenshot falso */
-    .hero-visual{display:grid;gap:16px}
+    .hero-visual{display:grid;gap:16px;position:relative;isolation:isolate}
+    .hero-visual::before{content:"";position:absolute;inset:6% -6% -8%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side, var(--accent-soft), transparent);filter:blur(46px)}
     .window{
       background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
       box-shadow:var(--shadow-lg);overflow:hidden;
@@ -231,7 +235,14 @@
     .mini h3{font-size:13px;font-family:var(--mono);font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
     .bars{display:flex;align-items:flex-end;gap:6px;height:56px}
     .bars i{flex:1;border-radius:5px;background:var(--surface-2);border:1px solid var(--line-soft);min-height:8px}
-    .bars i.fill{background:var(--accent);border-color:transparent}
+    .bars i.fill{background:var(--accent);border-color:transparent;transform-origin:bottom}
+    @media (prefers-reduced-motion:no-preference){
+      .bars i.fill{animation:grow .9s var(--ease) both}
+      .bars i.fill:nth-child(2){animation-delay:.15s}
+      .bars i.fill:nth-child(4){animation-delay:.3s}
+      .bars i.fill:nth-child(6){animation-delay:.45s}
+      @keyframes grow{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+    }
     .check{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:14px}
     .check:last-child{border-bottom:0}
     .box{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:12px;flex:none;background:var(--surface)}
@@ -245,7 +256,9 @@
     .portrait{
       background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
       padding:32px;box-shadow:var(--shadow-sm);position:sticky;top:calc(var(--nav-h) + 20px);align-self:start;
+      overflow:hidden;
     }
+    .portrait::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg, var(--accent), transparent)}
     @media(max-width:860px){.portrait{position:static}}
     .photo-frame{position:relative;margin:0 0 4px;width:100%;aspect-ratio:4/3;border-radius:var(--r-inner);overflow:hidden;background:var(--surface-2);border:1px solid var(--line-soft)}
     .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;position:relative}
@@ -259,7 +272,7 @@
     @media(max-width:520px){.values{grid-template-columns:1fr}}
     .value{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-inner);padding:18px;transition:transform .3s var(--ease),box-shadow .3s}
     .value:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
-    .value span{font-size:20px}
+    .value span{display:inline-flex;width:34px;height:34px;border-radius:10px;background:var(--accent-soft);align-items:center;justify-content:center;font-size:17px}
     .value h3{font-size:15px;margin:10px 0 6px}
     .value p{font-size:14px;color:var(--text-2);line-height:1.6}
 
@@ -278,7 +291,7 @@
     .chip small{font-weight:500;color:var(--text-3);font-size:12px}
     .learn{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
     @media(max-width:760px){.learn{grid-template-columns:1fr}}
-    .learn article{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-inner);padding:20px}
+    .learn article{background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:var(--r-inner);padding:20px}
     .learn h3{font-size:14px;font-family:var(--mono);font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
     .learn p{font-size:14px;color:var(--text-2)}
     .note{margin-top:18px;font-size:13.5px;color:var(--text-3)}
@@ -293,7 +306,8 @@
       transition:transform .35s var(--ease),box-shadow .35s;
       display:flex;flex-direction:column;
     }
-    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:rgba(0,113,227,.35)}
+    [data-theme="dark"] .card:hover{border-color:rgba(41,151,255,.4)}
     .preview{border-bottom:1px solid var(--line-soft);padding:26px;background:var(--surface-2);min-height:190px;display:flex;align-items:center;justify-content:center}
     .preview .frame{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-inner);box-shadow:var(--shadow-sm);padding:18px;width:100%;max-width:420px}
     .frame-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
@@ -364,6 +378,9 @@
     .c-link-btn{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%;border-radius:10px}
     .email-field{flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-pill);padding:10px 14px;font-size:12.5px;color:var(--text-2);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis}
     footer{border-top:1px solid var(--line-soft);padding:28px 0;color:var(--text-3);font-size:13.5px}
+    .foot{align-items:center}
+    .foot a:last-child{border:1px solid var(--line);border-radius:var(--r-pill);padding:8px 18px;font-weight:600;color:var(--text-2);transition:border-color .2s,background .2s}
+    .foot a:last-child:hover{border-color:var(--accent);background:var(--accent-soft)}
     .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
     /* ============ REVEAL (React Bits adaptado, IO-based) ============ */
@@ -379,6 +396,52 @@
       *,*::before,*::after{animation:none!important;transition:none!important}
       .rv,.rv-char{opacity:1!important;transform:none!important}
       .hero-visual{animation:none}
+    }
+
+    /* ============ GATE (porta de entrada) ============ */
+    .gate{position:fixed;inset:0;z-index:200;background:#060608;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .7s var(--ease),visibility .7s}
+    .gate.expand{opacity:0;visibility:hidden}
+    .gate::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(520px 340px at 50% 46%, rgba(120,170,255,.08), transparent 70%)}
+    .gate::after{content:"";position:absolute;left:50%;top:46%;width:216px;height:216px;margin:-108px 0 0 -108px;border-radius:50%;border:1px solid rgba(245,245,247,.35);opacity:0;pointer-events:none}
+    .gate.expand::after{opacity:1;animation:wave .8s var(--ease) both}
+    @keyframes wave{from{transform:scale(.55);opacity:.8}to{transform:scale(6.5);opacity:0}}
+    .gate-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:rgba(245,245,247,.42);margin:0;padding-left:.34em;transition:opacity .4s}
+    .wm-btn{position:relative;width:216px;height:216px;border-radius:50%;background:transparent;border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+    .wm-btn:focus-visible{outline:2px solid rgba(245,245,247,.85);outline-offset:10px}
+    .wm-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(245,245,247,.16);transition:transform .45s var(--ease),border-color .45s,box-shadow .45s}
+    .wm-ring svg{position:absolute;inset:0;width:100%;height:100%}
+    .wm-ring .arc{fill:none;stroke:rgba(160,200,255,.55);stroke-width:1.5;stroke-dasharray:46 256;stroke-linecap:round}
+    .wm-letters{font-size:46px;font-weight:800;letter-spacing:-.04em;color:#F5F5F7;transition:transform .45s var(--ease),opacity .45s}
+    .wm-hint{margin:0;font-size:13.5px;color:rgba(245,245,247,.5);letter-spacing:.02em;transition:opacity .4s}
+    .wm-btn:hover .wm-ring{transform:scale(1.05);border-color:rgba(245,245,247,.38);box-shadow:0 0 60px rgba(140,180,255,.14)}
+    .wm-btn:hover .wm-letters{transform:scale(1.04)}
+    .wm-btn:active .wm-letters{transform:scale(.98)}
+    .gate.press .wm-ring{transform:scale(1.12);border-color:rgba(200,220,255,.6);box-shadow:0 0 90px rgba(140,180,255,.28)}
+    .gate.press .wm-letters{transform:scale(1.1)}
+    .gate.press .wm-hint{opacity:0}
+    .gate.expand .wm-ring{transform:scale(1.6);opacity:0}
+    .gate.expand .wm-letters{transform:scale(1.5);opacity:0}
+    .gate.expand .gate-eyebrow,.gate.expand .wm-hint{opacity:0}
+    .site.locked{height:100dvh;overflow:hidden}
+    .site.revealing main{animation:rise .8s var(--ease) both}
+    @keyframes rise{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+    .brand-mark{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;letter-spacing:-.02em;margin-right:2px;flex:none}
+    .replay{background:none;border:0;color:var(--text-3);font-size:13px;cursor:pointer;padding:8px 4px}
+    .replay:hover{color:var(--accent);text-decoration:underline}
+    @media(max-width:480px){.wm-btn{width:188px;height:188px}.wm-letters{font-size:40px}.gate::after{width:188px;height:188px;margin:-94px 0 0 -94px}}
+    @media (prefers-reduced-motion:no-preference){
+      .wm-btn{animation:breathe 5s ease-in-out infinite}
+      @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.018)}}
+      .wm-ring svg{animation:orbit 18s linear infinite}
+      @keyframes orbit{to{transform:rotate(360deg)}}
+      .wm-letters{background:linear-gradient(110deg,#F5F5F7 42%,#A9C8FF 50%,#F5F5F7 58%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 6s ease-in-out infinite}
+      @keyframes sheen{0%,100%{background-position:110% 0}50%{background-position:-10% 0}}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .gate{transition:opacity .18s ease!important}
+      .gate.expand{opacity:0!important}
+      .gate.expand::after{display:none}
+      .site.revealing main{animation:none}
     }
   </style>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -409,25 +472,28 @@
     ];
     const PROJECTS = [
       {
-        title: "Dashboard Financeiro",
-        kind: "Interface conceitual · demonstração",
-        desc: "Exploração de layout para um painel financeiro: KPIs, gráfico de fluxo e hierarquia de dados. Foco em legibilidade, espaçamento e estados visuais.",
-        tech: ["React", "TypeScript", "Tailwind"],
+        title: "Finora",
+        kind: "Dashboard funcional · demonstração",
+        desc: "Dashboard financeiro funcional: KPIs, gráficos em SVG, transações com CRUD local, busca, filtros por período e categoria, dark mode e dados fictícios.",
+        tech: ["React", "JavaScript", "CSS", "SVG"],
         preview: "dash",
+        demo: "portfolio-projects/finora/index.html",
       },
       {
-        title: "Task Manager",
-        kind: "Aplicação conceitual · demonstração",
-        desc: "Estudo de CRUD e estados de interface: listas, checkboxes, filtros e feedback visual. Sem backend, apenas comportamento de front-end.",
+        title: "Taskly",
+        kind: "Kanban funcional · demonstração",
+        desc: "Kanban funcional com 4 colunas: drag and drop com alternativa por teclado, filtros, ordenação, atalhos, confirmação de exclusão e persistência local.",
         tech: ["React", "JavaScript", "CSS"],
         preview: "tasks",
+        demo: "portfolio-projects/taskly/index.html",
       },
       {
-        title: "Landing Page Premium",
-        kind: "Página conceitual · demonstração",
-        desc: "Exercício de composição inspirada em SaaS modernos: hero, prova social e CTA único. Tipografia e ritmo visual como prioridades.",
-        tech: ["HTML", "CSS", "JavaScript"],
+        title: "Nexa",
+        kind: "Landing page funcional · produto fictício",
+        desc: "Landing page de um SaaS fictício: hero, recursos, showcase com abas, planos com alternância mensal/anual, FAQ, cadastro simulado e dark mode.",
+        tech: ["React", "JavaScript", "CSS"],
         preview: "saas",
+        demo: "portfolio-projects/nexa/index.html",
       },
     ];
 
@@ -551,6 +617,23 @@
       const [theme, toggleTheme] = useTheme();
       const [menuOpen, setMenuOpen] = useState(false);
       const menuBtnRef = useRef(null);
+      const [gate, setGate] = useState(() => { try { return localStorage.getItem("wsm.gate.seen") ? "done" : "idle"; } catch (e) { return "idle"; } });
+      const gateTimers = useRef([]);
+      useEffect(() => {
+        if (gate === "done") return;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        document.body.style.overflow = "hidden";
+        gateTimers.current.forEach(clearTimeout); gateTimers.current = [];
+        if (gate === "press") gateTimers.current.push(setTimeout(() => setGate("expand"), reduce ? 60 : 320));
+        if (gate === "expand") gateTimers.current.push(setTimeout(() => {
+          try { localStorage.setItem("wsm.gate.seen", "1"); } catch (e) {}
+          document.body.style.overflow = "";
+          setGate("done");
+        }, reduce ? 220 : 780));
+        return () => { gateTimers.current.forEach(clearTimeout); };
+      }, [gate]);
+      const enter = () => { if (gate === "idle") setGate("press"); };
+      const replay = () => { try { localStorage.removeItem("wsm.gate.seen"); } catch (e) {} window.location.reload(); };
       const [copied, setCopied] = useState(false);
       const copyEmail = async () => {
         const email = "wesleysantosmelo2022@gmail.com";
@@ -586,10 +669,23 @@
 
       return (
         <React.Fragment>
+          {gate !== "done" && (
+            <div className={"gate" + (gate === "press" ? " press" : gate === "expand" ? " expand" : "")} role="dialog" aria-modal="true" aria-label="Entrada do portfólio de Wesley Santos de Melo">
+              <p className="gate-eyebrow">Wesley Santos de Melo</p>
+              <button type="button" className="wm-btn" onClick={enter} autoFocus aria-label="Entrar no portfólio">
+                <span className="wm-ring" aria-hidden="true">
+                  <svg viewBox="0 0 100 100" aria-hidden="true"><circle className="arc" cx="50" cy="50" r="48"/></svg>
+                </span>
+                <span className="wm-letters" aria-hidden="true">WM</span>
+              </button>
+              <p className="wm-hint">Clique para entrar</p>
+            </div>
+          )}
+          <div className={"site" + (gate === "done" ? " revealed" : gate === "expand" ? " revealing" : " locked")} aria-hidden={gate !== "done" ? true : undefined}>
           <header className={"nav" + (scrolled ? " scrolled" : "")}>
             <div className="nav-inner">
               <a className="brand" href="#inicio" aria-label="Wesley Santos de Melo, voltar ao início">
-                Wesley Santos de Melo <small>· dev</small>
+                <span className="brand-mark" aria-hidden="true">WM</span>Wesley Santos de Melo <small>· dev</small>
               </a>
               <nav aria-label="Navegação principal">
                 <ul className="nav-links">
@@ -647,8 +743,8 @@
                     oportunidade para aprender entregando valor real.
                   </p>
                   <div className="btn-row">
-                    <Magnetic><a className="btn btn-primary" href="#projetos">Ver projetos</a></Magnetic>
-                    <Magnetic><a className="btn btn-ghost" href="#contato">Entrar em contato</a></Magnetic>
+                    <Magnetic><a className="btn btn-primary" href="#projetos">Ver projetos ↓</a></Magnetic>
+                    <Magnetic><a className="btn btn-ghost" href="#contato">Entrar em contato →</a></Magnetic>
                   </div>
                   <div className="hero-meta" aria-label="Resumo rápido">
                     <div><strong>Foco</strong><span>React · interfaces</span></div>
@@ -775,8 +871,7 @@
                           <h3>{PROJECTS[0].title}</h3>
                           <p>{PROJECTS[0].desc}</p>
                           <div className="card-links">
-                            <a className="link-btn" href="#contato" aria-label="Pedir detalhes sobre o Dashboard Financeiro">Pedir detalhes</a>
-                            <span className="link-btn" aria-disabled="true" title="Código público em breve">Código em breve</span>
+                            <a className="link-btn" href={PROJECTS[0].demo} aria-label={"Abrir demonstração: " + PROJECTS[0].title}>Abrir demonstração →</a>
                           </div>
                         </div>
                       </article>
@@ -792,7 +887,7 @@
                             <h3>{p.title}</h3>
                             <p>{p.desc}</p>
                             <div className="card-links">
-                              <a className="link-btn" href="#contato" aria-label={"Pedir detalhes sobre " + p.title}>Pedir detalhes</a>
+                              <a className="link-btn" href={p.demo} aria-label={"Abrir demonstração: " + p.title}>Abrir demonstração →</a>
                             </div>
                           </div>
                         </article>
@@ -814,7 +909,7 @@
                   <div className="next-box">
                     <div>
                       <p className="lede">No momento, aprofundo React e acessibilidade e preparo os primeiros repositórios públicos. Em breve, esta seção vira uma vitrine de projetos com código aberto.</p>
-                      <div className="btn-row"><a className="btn btn-ghost" href="#contato">Acompanhar de perto</a></div>
+                      <div className="btn-row"><a className="btn btn-ghost" href="#contato">Acompanhar de perto →</a></div>
                     </div>
                     <ol className="road">
                       <li className="done"><span className="step" aria-hidden="true">✓</span><div><b>Fundamentos publicados</b><small>HTML, CSS e JS com exercícios revisados</small></div></li>
@@ -861,9 +956,11 @@
           <footer>
             <div className="wrap foot">
               <span>© 2026 Wesley Santos de Melo · Feito com React em um único HTML</span>
+              <button type="button" className="replay" onClick={replay}>Rever abertura ↺</button>
               <a href="#inicio" style={{textDecoration:"none"}}>Voltar ao topo ↑</a>
             </div>
           </footer>
+          </div>
         </React.Fragment>
       );
     }
