@@ -285,42 +285,17 @@
     @keyframes wave{from{transform:scale(.55);opacity:.8}to{transform:scale(6.5);opacity:0}}
     .gate-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.34em;text-transform:uppercase;
       color:rgba(240,240,250,.45);margin:0;padding-left:.34em;transition:opacity .4s}
-    .wm-btn{position:relative;width:216px;height:216px;border-radius:50%;background:transparent;border:0;
-      padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
-      -webkit-tap-highlight-color:transparent}
-    .wm-btn:focus-visible{outline:2px solid rgba(240,240,250,.85);outline-offset:10px}
-    .wm-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(240,240,250,.16);
-      transition:transform .45s var(--ease),border-color .45s,box-shadow .45s}
-    .wm-ring svg{position:absolute;inset:0;width:100%;height:100%}
-    .wm-ring .arc{fill:none;stroke:rgba(170,160,255,.6);stroke-width:1.5;
-      stroke-dasharray:46 256;stroke-linecap:round}
-    .wm-letters{font-size:46px;font-weight:800;letter-spacing:-.04em;color:#f2f3fa;
-      transition:transform .45s var(--ease),opacity .45s}
-    .wm-hint{margin:0;font-size:13.5px;color:rgba(240,240,250,.5);transition:opacity .4s}
-    .wm-btn:hover .wm-ring{transform:scale(1.05);border-color:rgba(240,240,250,.4);
-      box-shadow:0 0 60px rgba(130,110,255,.18)}
-    .wm-btn:hover .wm-letters{transform:scale(1.04)}
-    .wm-btn:active .wm-letters{transform:scale(.98)}
-    .gate.press .wm-ring{transform:scale(1.12);border-color:rgba(205,195,255,.65);
-      box-shadow:0 0 90px rgba(130,110,255,.3)}
-    .gate.press .wm-letters{transform:scale(1.1)}
-    .gate.press .wm-hint{opacity:0}
-    .gate.expand .wm-ring{transform:scale(1.6);opacity:0}
-    .gate.expand .wm-letters{transform:scale(1.5);opacity:0}
-    .gate.expand .gate-eyebrow,.gate.expand .wm-hint{opacity:0}
+    .enter-btn{border:1px solid rgba(240,240,250,.28);background:transparent;color:#f2f3fa;
+      border-radius:999px;padding:14px 48px;font-size:15px;font-weight:650;cursor:pointer;
+      transition:border-color .25s,background .25s,transform .2s var(--ease)}
+    .enter-btn:hover{border-color:var(--accent);background:rgba(143,123,255,.12)}
+    .enter-btn:active{transform:scale(.97)}
+    .enter-btn:focus-visible{outline:2px solid rgba(240,240,250,.85);outline-offset:6px}
     .site.revealing main{animation:rise .8s var(--ease) both}
     @keyframes rise{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
-    @media(max-width:480px){.wm-btn{width:188px;height:188px}.wm-letters{font-size:40px}
-      .gate::after{width:188px;height:188px;margin:-94px 0 0 -94px}}
+    @media(max-width:480px){.gate{gap:22px}}
     @media (prefers-reduced-motion:no-preference){
-      .wm-btn{animation:breathe 5s ease-in-out infinite}
-      @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.018)}}
-      .wm-ring svg{animation:orbit 18s linear infinite}
-      @keyframes orbit{to{transform:rotate(360deg)}}
-      .wm-letters{background:linear-gradient(110deg,#f2f3fa 42%,#b9a8ff 50%,#f2f3fa 58%);
-        background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-        animation:sheen 6s ease-in-out infinite}
-      @keyframes sheen{0%,100%{background-position:110% 0}50%{background-position:-10% 0}}
+      .enter-btn{transition:border-color .25s,background .25s,transform .2s var(--ease)}
     }
     @media (prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
@@ -441,7 +416,6 @@
       const [gate, setGate] = useState("idle");
       const [copied, setCopied] = useState(false);
       const menuBtnRef = useRef(null);
-      const gateTimers = useRef([]);
 
       useEffect(()=>{ document.documentElement.dataset.theme = theme; try{ localStorage.setItem("wsm.theme", theme); }catch(e){} },[theme]);
       useEffect(()=>{
@@ -457,20 +431,17 @@
         return ()=>document.removeEventListener("keydown", onKey);
       },[]);
 
-      /* Porta de entrada: aparece a cada carregamento */
+      /* Entrada simples: um clique e o site abre */
       useEffect(()=>{
         if(gate === "done") return;
         const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         document.body.style.overflow = "hidden";
-        gateTimers.current.forEach(clearTimeout); gateTimers.current = [];
-        if(gate === "press") gateTimers.current.push(setTimeout(()=>setGate("expand"), reduce ? 60 : 320));
-        if(gate === "expand") gateTimers.current.push(setTimeout(()=>{
-          document.body.style.overflow = "";
-          setGate("done");
-        }, reduce ? 220 : 780));
-        return ()=>{ gateTimers.current.forEach(clearTimeout); };
+        if(gate === "expand"){
+          const t = setTimeout(()=>{ document.body.style.overflow = ""; setGate("done"); }, reduce ? 200 : 450);
+          return ()=>clearTimeout(t);
+        }
       },[gate]);
-      const enter = () => { if(gate === "idle") setGate("press"); };
+      const enter = () => { if(gate === "idle") setGate("expand"); };
 
       const copyEmail = async () => {
         const field = document.getElementById("email-field");
@@ -491,15 +462,9 @@
           <div className="progress" aria-hidden="true"/>
 
           {gate !== "done" && (
-            <div className={"gate" + (gate === "press" ? " press" : gate === "expand" ? " expand" : "")} role="dialog" aria-modal="true" aria-label="Entrada do portfólio de Wesley Melo">
+            <div className={"gate" + (gate === "expand" ? " expand" : "")} role="dialog" aria-modal="true" aria-label="Entrada do portfólio">
               <p className="gate-eyebrow">Wesley Melo · portfólio</p>
-              <button type="button" className="wm-btn" onClick={enter} autoFocus aria-label="Entrar no portfólio">
-                <span className="wm-ring" aria-hidden="true">
-                  <svg viewBox="0 0 100 100" aria-hidden="true"><circle className="arc" cx="50" cy="50" r="48"/></svg>
-                </span>
-                <span className="wm-letters" aria-hidden="true">WM</span>
-              </button>
-              <p className="wm-hint">Clique para entrar</p>
+              <button type="button" className="enter-btn" onClick={enter} autoFocus>Entrar →</button>
             </div>
           )}
 
